@@ -1,0 +1,28 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+.App {
+  text-align: center;
+}
+
+.controls {
+  margin: 20px;
+}
+
+.status {
+  margin: 20px;
+}
+
+.logs {
+  margin: 20px;
+  text-align: left;
+}
+
+.form-control {
+  margin-bottom: 10px;
+}
+
+.btn-primary {
+  margin-top: 10px;
+}
