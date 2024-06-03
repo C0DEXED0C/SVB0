@@ -1,1 +1,21 @@
-
+{
+  "name": "solana-trading-bot",
+  "version": "1.0.0",
+  "main": "src/server.ts",
+  "scripts": {
+    "start": "ts-node src/server.ts",
+    "train": "ts-node src/train_lstm_model.ts"
+  },
+  "dependencies": {
+    "@solana/web3.js": "^1.30.0",
+    "@tensorflow/tfjs-node": "^3.11.0",
+    "axios": "^0.21.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "nodemailer": "^6.6.3",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.2",
+    "winston": "^3.3.3",
+    "limiter": "^1.1.5"
+  }
+}
