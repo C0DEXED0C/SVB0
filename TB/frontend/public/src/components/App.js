@@ -51,4 +51,13 @@ function App() {
 
   return (
     <div className="App container">
-      <h1 className="text-center">Trading
+      <h1 className="text-center">Trading Bot Dashboard</h1>
+      <button className="btn btn-primary mb-3" onClick={stopBot}>Stop Bot</button>
+      <Controls settings={settings} updateSettings={updateSettings} />
+      <Status status={status} />
+      <Logs logs={logs} />
+    </div>
+  );
+}
+
+export default App;
