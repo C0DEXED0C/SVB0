@@ -1,6 +1,7 @@
 import { Connection, PublicKey } from '@solana/web3.js';
 import { fetchRealTimeData } from './utils/fetch_market_data';
 import { analyzeMarketData, executeSwap, handleError, sendAlert, saveTradingData } from './utils';
+import { detectPattern } from './utils/tcp';
 import winston from 'winston';
 import { RateLimiter } from 'limiter';
 
@@ -43,7 +44,29 @@ export async function tradeBot(settings: any) {
         continue;
       }
 
-      await executeSwap(connection, wallet.publicKey, contractAddress, amount);
+      const candles = await fetchCandlesData(tokenMint); // Assume this function fetches candle data
+      const patterns = [
+        'flagPattern',
+        'pennantPattern',
+        'trianglePattern',
+        'headAndShoulders',
+        'inverseHeadAndShoulders',
+        'doubleTop',
+        'doubleBottom',
+        'tripleTop',
+        'tripleBottom',
+        'bilateralTriangle',
+        'symmetricalTriangle',
+        'breakawayGap',
+        'runawayGap',
+        'exhaustionGap'
+      ];
+
+      const detectedPattern = patterns.some(pattern => detectPattern(candles, pattern));
+      if (detectedPattern) {
+        await executeSwap(connection, wallet.publicKey, contractAddress, amount);
+      }
+
       const newPrice = await fetchRealTimeData(tokenMint);
       if (newPrice === null) {
         logger.error('Failed to fetch new market price.');
