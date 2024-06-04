@@ -6,11 +6,15 @@ import { addContract, fetchHolders } from './utils/contract_manager';
 import { distributeEarnings } from './utils/distribute_earnings';
 import { executeTrade } from './utils/trade_execution';
 import dotenv from 'dotenv';
+import NodeCache from 'node-cache';
+
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
+const cache = new NodeCache({ stdTTL: 3600 }); // Cache for 1 hour
+
 
 app.use(bodyParser.json());
 
@@ -54,6 +58,20 @@ app.post('/api/execute-trade', async (req, res) => {
     res.status(500).send({ message: 'Error executing trade' });
   }
 });
+
+if (cache.has(cacheKey)) {
+    return res.status(200).send({ holders: cache.get(cacheKey) });
+  }
+
+  try {
+    const holders = await fetchHolders(network, contractAddress);
+    cache.set(cacheKey, holders);
+    res.status(200).send({ holders });
+  } catch (error) {
+    res.status(500).send({ message: 'Error fetching holders' });
+  }
+});
+
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
