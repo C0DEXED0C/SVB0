@@ -8,7 +8,6 @@ import { executeTrade } from './utils/trade_execution';
 import dotenv from 'dotenv';
 import NodeCache from 'node-cache';
 
-
 dotenv.config();
 
 const app = express();
@@ -39,10 +38,11 @@ app.get('/api/fetch-holders', async (req, res) => {
 });
 
 app.post('/api/distribute-earnings', async (req, res) => {
-  const { network, contractAddress, earnings } = req.body;
+  const { network, contractAddress, earnings, excludeAddresses } = req.body;
   try {
     const holders = await fetchHolders(network, contractAddress);
-    await distributeEarnings(network, contractAddress, holders, earnings);
+    const filteredHolders = holders.filter(holder => !excludeAddresses.includes(holder.publicKey.toBase58()));
+    await distributeEarnings(network, contractAddress, filteredHolders, earnings);
     res.status(200).send({ message: 'Earnings distributed successfully' });
   } catch (error) {
     res.status(500).send({ message: 'Error distributing earnings' });
@@ -76,3 +76,11 @@ if (cache.has(cacheKey)) {
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
+
+
+
+
+
+
+
+
