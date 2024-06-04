@@ -26,14 +26,14 @@ export async function executeTrade(network: string, contractAddress: string, amo
 
 function getNetworkRpcUrl(network: string) {
   const urls = {
-    solana: 'https://solana-api.projectserum.com',
-    ethereum: 'https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID',
-    'binance-smart-chain': 'https://bsc-dataseed.binance.org/',
-    polygon: 'https://polygon-rpc.com',
-    avalanche: 'https://api.avax.network/ext/bc/C/rpc',
-    fantom: 'https://rpcapi.fantom.network',
-    tron: 'https://api.trongrid.io',
-    algorand: 'https://algoexplorerapi.io',
+    SOL : 'https://solana-api.projectserum.com',
+    ETH : 'https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID',
+    BSC : 'https://bsc-dataseed.binance.org/',
+    POLYGON : 'https://polygon-rpc.com',
+    AVALANCHE : 'https://api.avax.network/ext/bc/C/rpc',
+    FANTOM : 'https://rpcapi.fantom.network',
+    TRON : 'https://api.trongrid.io',
+    ALGORAND : 'https://algoexplorerapi.io',
   };
   return urls[network];
 }
