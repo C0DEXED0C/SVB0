@@ -5,14 +5,17 @@ function ContractManager({ networks }) {
   const [network, setNetwork] = useState('');
   const [contractAddress, setContractAddress] = useState('');
   const [holders, setHolders] = useState([]);
+  const [excludeAddresses, setExcludeAddresses] = useState([]);
   const [status, setStatus] = useState('');
   const [earnings, setEarnings] = useState(0);
+  const [excludeAddress, setExcludeAddress] = useState('');
 
   const handleNetworkChange = (e) => {
     setNetwork(e.target.value);
     setStatus('');
     setHolders([]);
     setContractAddress('');
+    setExcludeAddresses([]);
   };
 
   const handleAddContract = async () => {
@@ -25,6 +28,7 @@ function ContractManager({ networks }) {
       const response = await axios.post('/api/add-contract', { network, contractAddress });
       setStatus(response.data.message);
       setHolders([]);
+      setExcludeAddresses([]);
     } catch (error) {
       setStatus('Error adding contract');
     }
@@ -47,10 +51,17 @@ function ContractManager({ networks }) {
 
   const handleDistribute = async () => {
     try {
-      await axios.post('/api/distribute-earnings', { network, contractAddress, earnings });
+      await axios.post('/api/distribute-earnings', { network, contractAddress, earnings, excludeAddresses });
       setStatus('Earnings distributed successfully');
     } catch (error) {
       setStatus('Error distributing earnings');
+    }
+  };
+
+  const handleAddExcludeAddress = () => {
+    if (excludeAddress) {
+      setExcludeAddresses([...excludeAddresses, excludeAddress]);
+      setExcludeAddress('');
     }
   };
 
@@ -82,6 +93,19 @@ function ContractManager({ networks }) {
             onChange={(e) => setEarnings(e.target.value)}
             placeholder="Enter total earnings"
           />
+          <h3>Exclude Addresses</h3>
+          <input
+            type="text"
+            value={excludeAddress}
+            onChange={(e) => setExcludeAddress(e.target.value)}
+            placeholder="Enter address to exclude"
+          />
+          <button onClick={handleAddExcludeAddress}>Add Exclude Address</button>
+          <ul>
+            {excludeAddresses.map((address, index) => (
+              <li key={index}>{address}</li>
+            ))}
+          </ul>
           <button onClick={handleDistribute} disabled={!earnings}>Distribute Earnings</button>
         </div>
       )}
