@@ -29,11 +29,11 @@ function getNetworkRpcUrl(network: string) {
     SOL : 'https://solana-api.projectserum.com',
     ETH : 'https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID',
     BSC : 'https://bsc-dataseed.binance.org/',
-    POLYGON : 'https://polygon-rpc.com',
-    AVALANCHE : 'https://api.avax.network/ext/bc/C/rpc',
+    POLY : 'https://polygon-rpc.com',
+    AVA : 'https://api.avax.network/ext/bc/C/rpc',
     FANTOM : 'https://rpcapi.fantom.network',
     TRON : 'https://api.trongrid.io',
-    ALGORAND : 'https://algoexplorerapi.io',
+    ALGO : 'https://algoexplorerapi.io',
   };
   return urls[network];
 }
